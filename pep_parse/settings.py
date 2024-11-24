@@ -1,3 +1,12 @@
+from pathlib import Path
+
+
+PEP_SPIDER_NAME = 'pep'
+PEP_ALLOWED_DOMAINS = ['peps.python.org']
+PEP_START_URLS = ['https://peps.python.org/']
+DATETIME_FORMAT = '%Y-%m-%dT%H-%M-%S'
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 BOT_NAME = 'pep_parse'
 
 SPIDER_MODULES = ['pep_parse.spiders']

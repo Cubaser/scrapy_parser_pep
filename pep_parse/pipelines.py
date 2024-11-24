@@ -1,16 +1,14 @@
 import os
-from pathlib import Path
+import csv
 from collections import defaultdict
 from datetime import datetime as dt
-
-BASE_DIR = Path(__file__).parent.parent
+from .settings import DATETIME_FORMAT, BASE_DIR
 
 
 class PepParsePipeline:
-    status_dict = defaultdict(int)
 
     def open_spider(self, spider):
-        pass
+        self.status_dict = defaultdict(int)
 
     def process_item(self, item, spider):
 
@@ -18,16 +16,20 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        save_time = dt.now().strftime('%Y-%m-%dT%H-%M-%S')
+        save_time = dt.now().strftime(DATETIME_FORMAT)
         filename = f'status_summary_{save_time}.csv'
         folder = BASE_DIR / 'results'
         os.makedirs(folder, exist_ok=True)
         file_path = os.path.join(folder, filename)
+        self.status_dict['Total'] = sum(self.status_dict.values())
 
-        with open(file_path, mode='w', encoding='utf-8') as f:
+        with open(file_path, mode='w', encoding='utf-8', newline='') as f:
+            fieldnames = ['Статус', 'Количество']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
 
-            f.write('Статус,Количество\n')
-            for key, value in self.status_dict.items():
-                f.write(f'{key},{value}\n')
+            writer.writeheader()
 
-            f.write(f'Total,{sum(self.status_dict.values())}\n')
+            writer.writerows(
+                {'Статус': key, 'Количество': value} for key, value in
+                self.status_dict.items()
+            )
