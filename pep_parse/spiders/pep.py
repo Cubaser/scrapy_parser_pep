@@ -1,7 +1,7 @@
 import scrapy
+
 from pep_parse.items import PepParseItem
-from pep_parse.settings import (PEP_SPIDER_NAME,
-                                PEP_ALLOWED_DOMAINS,
+from pep_parse.settings import (PEP_ALLOWED_DOMAINS, PEP_SPIDER_NAME,
                                 PEP_START_URLS)
 
 

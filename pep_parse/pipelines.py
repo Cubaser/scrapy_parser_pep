@@ -1,8 +1,9 @@
-import os
 import csv
+import os
 from collections import defaultdict
 from datetime import datetime as dt
-from .settings import DATETIME_FORMAT, BASE_DIR
+
+from .settings import BASE_DIR, DATETIME_FORMAT
 
 
 class PepParsePipeline:
